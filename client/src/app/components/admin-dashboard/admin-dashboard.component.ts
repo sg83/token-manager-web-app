@@ -39,10 +39,9 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   onFormSubmit() {
-    console.log("onFormSubmit");
+  
     this.selectedApiToken = this.tokenListForm.get('selectedToken')?.value[0]._id;
-    console.log(this.tokenListForm.get('selectedToken')?.value);
-    console.log(this.selectedApiToken);
+    
     if (this.tokenListForm.get('selectedToken')?.value[0].status == true) {
       this.hideRevokeButton = false;
       this.hideEnableButton = true;
@@ -53,33 +52,31 @@ export class AdminDashboardComponent implements OnInit {
     this.hideDeleteButton = false;
   }
 
-  onListSelectionChange(ob: MatSelectionListChange) {
-    console.log("onListSelectionChange");
-
-    console.log("Selected Item: " + ob.source.selectedOptions.selected[0].value);
-  }
-
-  //Method to retrieve tokens from the service
+  /** Method to retrieve tokens from the TokenService
+  */
   getTokens(): void {
     this.tokenService.getTokens()
       .subscribe(apiTokens => this.apiTokens = apiTokens);
   }
 
+  /** Method to revoke token by calling TokenService method
+  */
   onRevokeToken(): void {
-    console.log("onRevokeToken");
     this.tokenService.updateToken(this.selectedApiToken, false).
       subscribe(apiToken => { this.resetButtonStates(false); this.ngOnInit() }
       );
   }
 
+  /** Method to enable token by calling TokenService method
+  */
   onEnableToken(): void {
-    console.log("onEnableToken");
     this.tokenService.updateToken(this.selectedApiToken, true).
       subscribe(apiToken => { this.resetButtonStates(false); this.ngOnInit() })
   }
 
+  /** Method to delete token by calling TokenService method
+  */
   onDeleteToken(): void {
-    console.log("onDeleteToken");
     this.tokenService.deleteToken(this.selectedApiToken).
       subscribe(apiToken => { this.resetButtonStates(false); this.ngOnInit() })
   }

@@ -16,31 +16,21 @@ export class AdminAuthDataService {
   }
 
   public saveAdminAuthToken(token: string): void {
-    this.log("saveAdminAuthToken TOKEN_KEY:"+token);
+    this.log("saveAdminAuthToken TOKEN_KEY:" + token);
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, token);
   }
 
-  public getAdminAuthToken(): string | null{
+  /** Get session authorization token 
+  */
+  public getAdminAuthToken(): string | null {
     this.log("getAdminAuthToken");
     return sessionStorage.getItem(TOKEN_KEY);
   }
-/*
-  public saveUser(user: any): void {
-    window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
-  }
-
-  public getUser(): any {
-    let user = sessionStorage.getItem(USER_KEY);
-    if(user){
-    return JSON.parse( user );
-  }
- 
-  }
- */
-  /** Log message with the MessageService */
+  
+  /** Log message with the MessageService 
+  */
   private log(message: string) {
     this.messageService.add(`AdminAuthDataService: ${message}`);
-}
+  }
 }

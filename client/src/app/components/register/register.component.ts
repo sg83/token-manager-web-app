@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-//import { NgForm, NgModel } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -7,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
+// This component is not being used.
 export class RegisterComponent implements OnInit {
   form: any = {
     username: null,
@@ -27,7 +27,6 @@ export class RegisterComponent implements OnInit {
 
     this.authService.register(username, email, password).subscribe(
       data => {
-        console.log(data);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
       },

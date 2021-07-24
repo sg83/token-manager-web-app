@@ -31,25 +31,21 @@ export class LoginComponent implements OnInit {
         this.reloadPage()
       },
       error => {
-        this.errorMessage = error,
-        console.log("User is logged in failed");
+        this.errorMessage = error;
         this.isLoginFailed = true;
       });
   }
 
   reloadPage(): void {
     if (this.authService.isLoggedIn()) {
-      console.log("Log in successful");
       this.isLoginFailed = false;
       this.isLoggedIn = true;
-      //this.ngOnInit();
       window.location.reload();
       this.router.navigate(['./admin-dashboard']);
     } else {
-      console.log("User is logged in failed");
       this.isLoginFailed = true;
       this.isLoginFailed = true;
-
     }
   }
+
 }

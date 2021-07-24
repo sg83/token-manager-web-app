@@ -12,9 +12,9 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'admin-dashboard', component:AdminDashboardComponent},
-  { path: 'create-token', component:CreateTokenComponent},
-  { path: 'check-token-validity', component:CheckTokenValidityComponent}
+  { path: 'admin-dashboard', component: AdminDashboardComponent },
+  { path: 'create-token', component: CreateTokenComponent },
+  { path: 'check-token-validity', component: CheckTokenValidityComponent }
 ];
 
 @NgModule({

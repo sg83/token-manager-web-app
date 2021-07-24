@@ -11,6 +11,5 @@ export interface ApiToken {
 export enum TokenStatus {
     Inactive = 0,
     Active = 1,
-  }
-  
-    
+}
+

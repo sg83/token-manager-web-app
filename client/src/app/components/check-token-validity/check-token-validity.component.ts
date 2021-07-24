@@ -22,7 +22,7 @@ export class CheckTokenValidityComponent implements OnInit {
 
   checkTokenValidity() {
     const tokenId = this.tokenId.value;
-    console.log("checkTokenValidity")
+    
     this.tokenService.validateToken(tokenId)
       .subscribe(apiToken => {
         this.validity = apiToken.validTo;
@@ -31,10 +31,10 @@ export class CheckTokenValidityComponent implements OnInit {
       },
         error => {
           this.errorMessage = error.statusText;
-          console.log("Token is not valid :", this.errorMessage);
           this.isFailed = true;
           this.showResult = true;
-        });
+      }
+    );
 
   }
 }

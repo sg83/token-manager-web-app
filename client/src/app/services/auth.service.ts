@@ -19,12 +19,12 @@ export class AuthService {
 
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
+  /** Login using email and password */
   login(userEmail:string, userPassword:string): Observable<any> {
-    console.log("AuthService: login() - sending http req. email:"+userEmail+"password"+userPassword);
+
     return this.http.post<any>(AUTH_API + 'login', {email: userEmail, password: userPassword}, httpOptions).pipe(
       map(data => {
         if (data && data.idToken) {
-          //localStorage.setItem('id_token', JSON.stringify(data.idToken));
           this.setSession(data.idToken, data.expiresIn)
         }
       }),
@@ -32,23 +32,26 @@ export class AuthService {
     );
   }
 
+  /** Save session authentication data i.e. JWT token and expiry in local storage */
   private setSession(idToken: any, expiresIn: any) {
     const expiresAt = moment().add(expiresIn,'second');
-    console.log("Login Success");
+
     localStorage.setItem('id_token', idToken);
     localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
-    console.log("setSession: id_token:"+ idToken + " expiresIn:"+ JSON.stringify(expiresIn));
   }    
  
+  /** Clear session authentication data when user is logged out */
   logout() {
       localStorage.removeItem("id_token");
       localStorage.removeItem("expires_at");
   }
 
+  /** Check if user is logged in */
   public isLoggedIn() {
       return moment().isBefore(this.getExpiration());
   }
 
+  /** Check if user is logged out */
   public isLoggedOut() {
       return !this.isLoggedIn();
   }
@@ -61,6 +64,7 @@ export class AuthService {
       return null;
   }
   
+  /** register user */
   register(userName: string, userEmail: string, userPassword: string): Observable<any> {
     return this.http.post(AUTH_API + 'register', {
       name: userName,
@@ -74,7 +78,6 @@ export class AuthService {
   /** Log message with the MessageService */
   private log(message: string) {
     this.messageService.add(`AuthService: ${message}`);
-    console.log(`\nAuthService: ${message}`);
 }
 
    /**

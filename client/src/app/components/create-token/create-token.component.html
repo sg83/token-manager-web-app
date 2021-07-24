@@ -2,7 +2,6 @@
 
     <div class="card card-container">
         <mat-card class="generateTokenCard" *ngIf="!isTokenCreated">
-
             <mat-card-header>
                 <mat-card-title>Generate New Token</mat-card-title>
             </mat-card-header>
@@ -20,9 +19,9 @@
 
                 <button mat-stroked-button color="primary">Submit</button>
             </form>
-
-
         </mat-card>
+
+        <!--Success message field-->
         <div class="alert alert-success" *ngIf="isTokenCreated">
             Token is created sucessfully. Please go back to Dashboard for managing token.
         </div>
