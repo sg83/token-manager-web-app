@@ -109,3 +109,9 @@ http://localhost:3080/docs
 Run the `Chai` base tests using the following commmand
 
 `npm run test`
+
+## TODO
+Search functionality
+Pagination
+Responsiveness
+
