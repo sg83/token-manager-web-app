@@ -9,12 +9,14 @@ Install MongoDB, Angular CLI, Node
 
 Before you proceed clone the github repo.
 
-```$ git clone git@https://github.com/sg83/token-manager-web-app.git ```
+```$ git clone https://github.com/sg83/token-manager-web-app.git ```
 ## Run Application
 
 1. #### Start MongoDB
 ```
 $cd token-manager-web-app/server
+Create data directory for MongoDB database.
+$mkdir data
 $mongod --dbpath ./data
 
 ```
@@ -22,7 +24,6 @@ $mongod --dbpath ./data
 ```
 $cd token-manager-web-app/server
 $npm install
-$npm start
 $npm run start
 ```
 The server runs on port 3080
@@ -30,7 +31,6 @@ The server runs on port 3080
 2. #### Start client
 ```
 $cd token-manager-web-app/client
-$npm install -g @angular/cli
 $ng serve
 ```
 The client runs on port 4200
