@@ -82,7 +82,7 @@ Any user or customer can use 'Token Validation' option to check the validity of 
 ## REST API documentation
 
 * The swagger docs for the rest api can be accessed by the link
-http://localhost:3030/docs
+http://localhost:3080/docs
 
 * #### List of token endpoints
 
