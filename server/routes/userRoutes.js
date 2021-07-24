@@ -14,6 +14,12 @@ const userController = require("../controllers/userController");
  *   post:
  *     summary: "Creates a new user"
  *     description: "This endpoint will create a new user"
+ *     tags:
+ *       - User
+ *     consumes:
+ *     - "application/json"
+ *     produces:
+ *     - "application/json"
  *     parameters:
  *     - name: "name"
  *       required: false
@@ -44,7 +50,6 @@ router.post("/register", async (request, response) => {
         // Check if user already exists
         const userExists = await userController.checkUserExists(request.body.email);
         if (userExists) {
-            console.error("register: User exists");
             return response.status(400).send("User exists");
         }
 
@@ -75,6 +80,12 @@ router.post("/register", async (request, response) => {
  *   post:
  *     summary: "Validates user and generated a JWT token"
  *     description: "This endpoint will validate a user and return a JWT token"
+ *     tags:
+ *       - User
+ *     consumes:
+ *     - "application/json"
+ *     produces:
+ *     - "application/json"
  *     parameters:
  *     - name: "email"
  *       in: "description"
@@ -114,12 +125,11 @@ router.post("/login", async (request, response, next) => {
 
         response.header("auth-token", jwtToken).status(200).json(
             {
-                idToken: jwtToken,
-                expiresIn: config.JWT_TOKEN_EXPIRY.toString()
+                idToken: jwtToken, 
+                expiresIn: config.JWT_TOKEN_EXPIRY
             });
       
     } catch ( error ) {
-        console.error("Login failed");
         response.status(500).send("login failed " + error);
     }
 
@@ -133,6 +143,12 @@ router.post("/login", async (request, response, next) => {
  *   delete:
  *     summary: "Deletes user"
  *     description: "This endpoint will delete a user"
+ *     tags:
+ *       - User
+ *     consumes:
+ *     - "application/json"
+ *     produces:
+ *     - "application/json"
  *     parameters:
  *     - name: "email"
  *       in: "description"

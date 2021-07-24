@@ -18,6 +18,12 @@ const Token = require("../models/Tokens");
  *   post:
  *     summary: "Generates a new API Token"
  *     description: "This endpoint will generate an API token and persist it"
+ *     tags:
+ *       - Token
+ *     consumes:
+ *     - "application/json"
+ *     produces:
+ *     - "application/json"
  *     parameters:
  *     - name: "name"
  *       in: "name"
@@ -39,18 +45,27 @@ router.post("/generate", userController.requestAuthentication, async (request, r
 
     const token = await tokenController.generateToken(request);
     if (!token) return res.status(400).send("Token generation error");
-    response.status(200).json(token);   
+    response.status(200).json(
+        {
+            _id: token._id, 
+            email: token.email,
+            name: token.name,
+            description: token.description,
+            status: token.status,
+            createdAt: token.createdAt,
+            validTo: token.validTo
+        });  
 
 });
 
 /**
  * @swagger
- * /token/:
+ * /api/token/:
  *   get:
  *     summary: "Get a list of API Tokens"
  *     description: "This endpoint will generate a list of all API tokens"
- *     security:
- *       - Authorization: []
+ *     tags:
+ *       - Token
  *     consumes:
  *     - "application/json"
  *     produces:
@@ -77,10 +92,16 @@ router.get("/", userController.requestAuthentication, async (request, response) 
 
 /**
  * @swagger
- * /token/:tokenId:
+ * /api/token/:tokenId:
  *   get:
  *     summary: "Get details of the API Token"
  *     description: "Individual API token details can be viewed using this endpoint."
+ *     tags:
+ *       - Token
+ *     consumes:
+ *     - "application/json"
+ *     produces:
+ *     - "application/json"
  *     parameters:
  *     - name: "tokenId"
  *       required: true
@@ -100,7 +121,15 @@ router.get("/:tokenId", userController.requestAuthentication, async (request, re
 
     const token = await tokenController.getToken(request);
     if (!token) return response.status(400).send("Token details error");
-    response.status(200).json(token);   
+    response.status(200).json(
+        {
+            _id: token._id, 
+            email: token.email,
+            name: token.name,
+            status: token.status,
+            createdAt: token.createdAt,
+            validTo: token.validTo
+        }); 
 
 });
 
@@ -108,10 +137,16 @@ router.get("/:tokenId", userController.requestAuthentication, async (request, re
 
 /**
  * @swagger
- * /token/:tokenId:
+ * /api/token/:tokenId:
  *   delete:
  *     summary: "Delete the API Token"
  *     description: "API tokens can be deleted using this endpoint."
+ *     tags:
+ *       - Token
+ *     consumes:
+ *     - "application/json"
+ *     produces:
+ *     - "application/json"
  *     parameters:
  *     - name: "tokenId"
  *       required: true
@@ -143,22 +178,22 @@ router.delete("/:tokenId", userController.requestAuthentication, async (request,
 
 /**
  * @swagger
- * /token/:tokenId:
+ * /api/token/:tokenId:
  *   patch:
  *     summary: "Update name and description of an API Token"
  *     description: "API tokens name and description can be updated using this endpoint."
- *     security:
- *       - Authorization: []
+ *     tags:
+ *       - Token
  *     consumes:
  *     - "application/json"
  *     produces:
  *     - "application/json"
  *     parameters:
- *     - name: "tokenId"
- *       required: true
+ *     - name: "name"
+ *       required: false
  *     - name: "status"
- *       required: true
- *     - name: "validTo"
+ *       required: false
+ *     - name: "description"
  *       required: false
  *     responses:
  *       200:
@@ -177,9 +212,19 @@ router.patch("/:tokenId", userController.requestAuthentication, async (request, 
     // Validate request params
     const { error } = validation.tokenIdValidation(request.params);
     if (error) return response.status(400).send("Invalid request parameters");
+
     const token = await tokenController.patchToken(request);
     if (!token) return response.status(400).send("Token patch error");
-    response.status(200).json(token);   
+
+    response.status(200).json(
+        {
+            _id: token._id, 
+            email: token.email,
+            name: token.name,
+            status: token.status,
+            createdAt: token.createdAt,
+            validTo: token.validTo
+        });
 
 });
 
@@ -187,10 +232,16 @@ router.patch("/:tokenId", userController.requestAuthentication, async (request, 
 
 /**
  * @swagger
- * /token/:tokenId/validate:
+ * /api/token/:tokenId/validate:
  *   post:
  *     summary: "Validates an API Token"
  *     description: "API tokens can expire or can be maliciously created. This endpoint helps with validating the real ones."
+ *     tags:
+ *       - Token
+ *     consumes:
+ *     - "application/json"
+ *     produces:
+ *     - "application/json"
  *     parameters:
  *     - name: "tokenId"
  *       required: true
@@ -202,7 +253,6 @@ router.patch("/:tokenId", userController.requestAuthentication, async (request, 
  *       500:
  *         description: "Operation failed"
  */
-
 router.get("/validate/:tokenId", async (request, response) => {
 
     try {
@@ -213,8 +263,9 @@ router.get("/validate/:tokenId", async (request, response) => {
 
         var tokenCheck = await tokenController.isAPITokenActive(request.params.tokenId);
 
-        var status;
+        var status=200;
         var message="";
+        var token="";
 
         switch(tokenCheck) {
             case "TOKEN_NOT_FOUND":
@@ -227,22 +278,35 @@ router.get("/validate/:tokenId", async (request, response) => {
                 message="inactive";
                 break;
             case "TOKEN_EXPIRED":
-                status=401;
+                status=404;
                 message="expired";
                 break;
             case "OK":
                 status=200;
                 message="valid";
-                const token = await tokenController.getToken(request);
-                return response.status(status).json(token);
+                token = await tokenController.getToken(request);
                 break;
         }
-        response.status(status).send(message);
-        
+
+        if (status == 200) {
+            response.status(status).json(
+                {
+                    _id: token._id, 
+                    email: token.email,
+                    name: token.name,
+                    status: token.status,
+                    createdAt: token.createdAt,
+                    validTo: token.validTo
+                });
+        } else {
+            response.status(status).send();
+        }
+
     } catch (err) {
-      response.status(404).send(err.message);
+      response.status(404).json({ message: err });
     }
 
 });
-    
+
+
 module.exports = router;

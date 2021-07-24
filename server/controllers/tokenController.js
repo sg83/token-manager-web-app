@@ -9,14 +9,25 @@ const config = require('./../config');
 
 
 
+/**
+ * Checks if the API token exists
+ * @param {String} tokenId - The ID of the API token
+ * @return {Object} token - The matching API token object, null if not found
+ */
 const checkAPITokenExists = async( tokenId ) => {
-    
+
     const token = await Token.findOne({ _id: tokenId });
     return token;
+
 };
 
 
 
+/**
+ * Checks if API token is active and not expired
+ * @param {String} tokenId - The ID of the API token
+ * @return {Object} token - The matching API token object, null if not found
+ */
 const isAPITokenActive = async( tokenId ) => {
 
     const token = await checkAPITokenExists(tokenId);
@@ -30,20 +41,32 @@ const isAPITokenActive = async( tokenId ) => {
 
 
 
+/**
+ * Updates API token object
+ * @param {Object} request - The request object
+ * @return {Object} token - The matching API token object, null if not found
+ */
 const patchToken = async( request  ) => {
 
     var token =  await Token.findOne({ _id: request.params.tokenId });
 
-    var status = null;
+    var status = request.body.status;
     var validTo = null;
-    status = request.body.status;
-    status ? validTo = Date.now() + config.API_TOKEN_EXPIRES_IN : validTo = Date.now();
- 
+    (status && !token.status) ? validTo = Date.now() + config.API_TOKEN_EXPIRES_IN : validTo = token.validTo;
+
+    var name = null;
+    (!request.body.name) ? name = token.name : name = request.body.name;
+
+    var description = null;
+    (!request.body.description) ? description = token.description : description = request.body.description;
+
     token = await Token.updateOne(
         { _id : request.params.tokenId }, 
         { $set: { 
             status: status,
-            validTo: validTo
+            validTo: validTo,
+            name: name,
+            description: description
         }
     });
 
@@ -54,19 +77,29 @@ const patchToken = async( request  ) => {
 
 
 
+/**
+ * Create a new API token object
+ * @param {Object} request - The request object
+ * @return {Object} token - The new API token object created, null if not created
+ */
 const generateToken = async( request  ) => {
 
-    const token = new Token({
+    const newToken = new Token({
       name: request.body.name,
       description: request.body.description
     });
-    const newToken = await token.save();
-    return newToken;
+    const token = await newToken.save();
+    return token;
 
 };
 
 
 
+/**
+ * Get a list of existing API token object
+ * @param {Object} request - The request object
+ * @return {Object} tokens - The list of tokens, null if not found
+ */
 const listTokens = async( request  ) => {
 
     const tokens = await Token.find();
@@ -76,19 +109,29 @@ const listTokens = async( request  ) => {
 
 
 
+/**
+ * Get details of the API token object
+ * @param {Object} request - The request object
+ * @return {Object} token - The matching API token object, null if not found
+ */
 const getToken = async( request  ) => {
 
-  const token =  await checkAPITokenExists(request.params.tokenId);
-  return token;
+    const token =  await checkAPITokenExists(request.params.tokenId);
+    return token;
 
 };
 
 
 
+/**
+ * Delete the API token object
+ * @param {Object} request - The request object
+ * @return {Object} token - The deleted API token object, null if not found
+ */
 const deleteToken = async( request  ) => {
 
-  const token =  await Token.deleteOne({_id : request.params.tokenId});
-  return token;
+    const token =  await Token.deleteOne({_id : request.params.tokenId});
+    return token;
 
 };
 

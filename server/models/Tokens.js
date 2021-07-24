@@ -4,9 +4,13 @@ const Schema = mongoose.Schema;
 const shortId = require('shortid');
 const mongoosePaginate = require('mongoose-paginate')
 const validator = require('validator');
-
 const config = require('./../config');
 
+
+
+/**
+ * Create schema definition for token object
+ */
 var tokenSchema = new Schema({
 
     _id: {

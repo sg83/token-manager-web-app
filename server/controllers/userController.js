@@ -6,20 +6,12 @@ const jwt = require('jsonwebtoken');
 const config = require('./../config');
 
 
-const verifyJWTToken = (req, res) => {
 
-    try {
-        const jwtToken = req.headers.authorization.split(" ")[1];
-        req.userData = jwt.verify(jwtToken, config.TOKEN_SECRET);;
-        next();
-    } catch (error) {
-        return res.status(404).json({message: 'Invalid JWT Token.' });
-    }
-
-};
-
-
-
+/**
+ * Check if user exists
+ * @param {String} email - The email ID
+ * @return {Object} user - The response includes status and message
+ */
 const checkUserExists = async( email ) => {
     const user = await User.findOne({ email: email });
     if (user) return user;
@@ -28,6 +20,13 @@ const checkUserExists = async( email ) => {
 
 
 
+/**
+ * Generate a new JWT Token on successful login
+ * @param {Object} request - The request object
+ * @param {Object} user    - The user object
+ * @param {String} secret  - The JWT Token secret
+ * @return {Sting} jwtToken- The JWT Token
+ */
 const generateJWTToken = async( request, user, secret ) => {
 
     const passwdCompare = await bcrypt.compare(request.body.password, user.password);
@@ -47,6 +46,12 @@ const generateJWTToken = async( request, user, secret ) => {
 
 
 
+/**
+ * Create a new user during register operation
+ * @param {Object} request - The request object
+ * @param {String} passwordHash  - The JWT password hash
+ * @return {Object} user- The user object, null if not created
+ */
 const createUser = async( request, passwordHash  ) => {
 
     const user = await new User({
@@ -61,6 +66,11 @@ const createUser = async( request, passwordHash  ) => {
 
 
 
+/**
+ * Delete a user
+ * @param {String} email  - The email of the user
+ * @return {Object} user- The user object, null if not found
+ */
 const deleteUser = async( email  ) => {
 
     const user =  await User.deleteOne({email : email});
@@ -70,6 +80,12 @@ const deleteUser = async( email  ) => {
 
 
 
+/**
+ * Authenticate the user
+ * @param {Object} request - The request object
+ * @param {Object} response - The response object
+ * @return {Object} response - The response includes status and  message
+ */
 const requestAuthentication = async( request, response, next  ) => {
 
     try {
@@ -82,7 +98,6 @@ const requestAuthentication = async( request, response, next  ) => {
         next();
         
     } catch (error) {
-        console.error("Verify jwtToken: Invalid JWT Token");
         return response.status(403).json({message: 'Invalid JWT Token.' });
     }
 
@@ -91,7 +106,6 @@ const requestAuthentication = async( request, response, next  ) => {
 
 
 module.exports.checkUserExists = checkUserExists;
-module.exports.verifyJWTToken = verifyJWTToken;
 module.exports.generateJWTToken = generateJWTToken;
 module.exports.createUser = createUser;
 module.exports.deleteUser = deleteUser;

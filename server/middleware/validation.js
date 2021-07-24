@@ -1,9 +1,14 @@
-//VALIDATION
 const Joi = require("joi");
 const config = require("../config.js")
 
 
-const userRegisterRequestValidation = (requestData) => {
+
+/**
+ * Validate input fields for /api/user/register api
+ * @param {Object} request - The request object
+ * @return {Object} request - The request object on successful validation
+ */
+const userRegisterRequestValidation = (request) => {
 
     const schema = Joi.object({
 
@@ -13,11 +18,17 @@ const userRegisterRequestValidation = (requestData) => {
 
     });
 
-    return schema.validate(requestData);
+    return schema.validate(request);
 };
 
 
-const userLoginRequestValidation = (requestData) => {
+
+/**
+ * Validate input fields for /api/user/login api
+ * @param {Object} request - The request object
+ * @return {Object} request - The request object on successful validation
+ */
+const userLoginRequestValidation = (request) => {
 
     const schema = Joi.object({
 
@@ -26,11 +37,17 @@ const userLoginRequestValidation = (requestData) => {
 
     });
 
-    return schema.validate(requestData);
+    return schema.validate(request);
 };
 
 
-const tokenRequestDataValidation = (requestData) => {
+
+/**
+ * Validate input fields for /api/user/register api
+ * @param {Object} request - The request object
+ * @return {Object} request - The request object on successful validation
+ */
+const tokenRequestDataValidation = (request) => {
 
     const schema = Joi.object({
 
@@ -41,11 +58,17 @@ const tokenRequestDataValidation = (requestData) => {
 
     });
 
-    return schema.validate(requestData);
+    return schema.validate(request);
 };
 
 
-const tokenIdValidation = (requestData) => {
+
+/**
+ * Validate input fields for /api/token/:tokenId api
+ * @param {Object} request - The request object
+ * @return {Object} request - The request object on successful validation
+ */
+const tokenIdValidation = (request) => {
 
     const schema = Joi.object({
 
@@ -53,8 +76,9 @@ const tokenIdValidation = (requestData) => {
 
     });
 
-    return schema.validate(requestData);
+    return schema.validate(request);
 };
+
 
 
 module.exports.userRegisterRequestValidation = userRegisterRequestValidation;

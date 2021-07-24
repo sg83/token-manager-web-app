@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const routes = require("./middleware/routes")
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
@@ -14,13 +14,9 @@ const db = require('./db/db');
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
-    title: 'API documentation',
+    title: 'API Token Manager REST API Documentation',
     version: '1.0.0',
-    description: 'This is a REST API application made with Express. ',
-    license: {
-      name: 'Licensed Under MIT',
-      url: 'https://spdx.org/licenses/MIT.html',
-    },
+    description: 'REST API application for API Token Manager application. ',
     contact: {
       name: 'Snehal Gavali'
     },
@@ -28,19 +24,19 @@ const swaggerDefinition = {
   servers: [
     {
       url: 'http://localhost:3000',
-      description: 'Local server',
+      description: 'Local'
     },
   ],
 };
 
 const options = {
     swaggerDefinition,
-    apis: ['./routes/*.js'],
+    apis: ['./routes/userRoutes.js','./routes/tokenRoutes.js'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
 
-// Enable Bodyparser
+// Enable bodyparser to parse incoming request body 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -71,9 +67,7 @@ app.use((error, request, response, next) => {
 
 // Connect to mongodb
 db.connectMongodb().then(() => {
-  app.listen(config.SERVER_PORT, () => {
-    console.log('API Token Manager listening on port ' + config.SERVER_PORT);
-  });
+  app.listen(config.SERVER_PORT);
 });
 
 module.exports = app;

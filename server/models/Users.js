@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 const config = require('./../config');
 
+
+
+/**
+ * Create schema definition for user object
+ */
 const userSchema = new mongoose.Schema({
 
   name: {

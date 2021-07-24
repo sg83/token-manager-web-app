@@ -40,7 +40,7 @@
       <mat-list-option *ngFor="let token of apiTokens; let i = index" [value]="token">
         <div class="listItem" style="text-align:left">
           <mat-grid-list cols="14" rowHeight="2:1">
-            <mat-grid-tile colspan="1">{{i}}</mat-grid-tile>
+            <mat-grid-tile colspan="1">{{i+1}}</mat-grid-tile>
             <mat-grid-tile colspan="3">{{token.name}}</mat-grid-tile>
             <mat-grid-tile colspan="3">{{token._id}}</mat-grid-tile>
             <mat-grid-tile colspan="2">

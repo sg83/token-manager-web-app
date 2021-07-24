@@ -4,19 +4,19 @@ module.exports = {
     MONGO_URI: process.env.MONGO_URI || 'mongodb://localhost/TokenManager',
 
     // SERVER PORT
-    SERVER_PORT : process.env.SERVER_PORT || 3080,
+    SERVER_PORT : process.env.SERVER_PORT || 3200,
   
     // JWT Token Secret
     TOKEN_SECRET: process.env.TOKEN_SECRET || 'pvpnCCZfwOF85pBjbOebZiYIDhZ3w9LZrKwBZ7152K89mPCOHtbRlmr5Z91ci4L',
   
     // Express Server Port
-    LISTEN_PORT: process.env.LISTEN_PORT || 3080,
+    LISTEN_PORT: process.env.LISTEN_PORT || 3200,
 
     // Password Salt
     PASSWORD_SALT : process.env.PASSWORD_SALT || 10,
 
     // JWT Token expiry & encryption algorithm
-    JWT_TOKEN_EXPIRY: process.env.JWT_TOKEN_EXPIRY || '360',
+    JWT_TOKEN_EXPIRY: process.env.JWT_TOKEN_EXPIRY || '3600000',
     JWT_TOKEN_ALGORITHM: process.env.JWT_TOKEN_ALGORITHM || 'RS256',
     JWT_TOKEN_SUBJECT: process.env.JWT_TOKEN_SUBJECT || 'JWT Token',
 
@@ -30,9 +30,10 @@ module.exports = {
     API_TOKEN_EXPIRES_IN: process.env.API_TOKEN_EXPIRES_IN || 604800000,
 
     // Unit test data
-    EMAIL : process.env.EMAIL || "adminUnitTest@test.com",
-    NAME : process.env.NAME || "adminUnitTest",
-    PASSWORD : process.env.PASSWORD || "test1234",
-    JWTTOKEN : process.env.JWTTOKEN || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGY5NzE3ZDFkM2YwOTRhZmFlODBmNDkiLCJpYXQiOjE2MjY5NjA1MDN9.dKLhyHTWeTHjQOywdlhPIPccXE_yt__L4-zTnMxCNBE"
-
+    UNITTEST_USER_EMAIL : process.env.UNITTEST_USER_EMAIL || "adminUnitTest@test.com",
+    UNITTEST_USER_NAME : process.env.UNITTEST_USER_NAME || "adminUnitTest",
+    UNITTEST_USER_PASSWORD : process.env.UNITTEST_USER_PASSWORD || "test1234",
+    UNITTEST_TOKEN_NAME : process.env.UNITTEST_TOKEN_NAME || "Unit testing Token ",
+    UNITTEST_TOKEN_DESCRIPTION: process.env.UNITTEST_TOKEN_DESCRIPTION || "Unit testing Token created at ",
+    UNITTEST_JWTTOKEN : process.env.UNITTEST_JWTTOKEN || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGZiYTIzMTA2OWNhMjdjNDU4ZWViZDUiLCJpYXQiOjE2MjcxMDM3OTN9.1_YpHNWFVG1-tuKlt6djsriqoS-TTByCkkVAZHLFWiw"
   }

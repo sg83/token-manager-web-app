@@ -26,7 +26,7 @@ $cd token-manager-web-app/server
 $npm install
 $npm run start
 ```
-The server runs on port 3080
+The server runs on port 3200
 
 2. #### Start client
 ```
@@ -82,7 +82,7 @@ Any user or customer can use 'Token Validation' option to check the validity of 
 ## REST API documentation
 
 * The swagger docs for the rest api can be accessed by the link
-http://localhost:3080/docs
+http://localhost:3200/docs
 
 * #### List of token endpoints
 
@@ -93,15 +93,14 @@ http://localhost:3080/docs
 | GET    | /api​/token​/:tokenId          | Get details of the API Token         |
 | DELETE | /api​/token​/:tokenId          | Delete the API Token                 |
 | PATCH  | /api​/token​/:tokenId          | Update status of a API Token         |
-| POST   | /api​/token​/validate/:tokenId | Validates an API Token               |
+| POST   | /api​/token​/validate/:tokenId | Validates an API Token (Public API)  |
 
 * #### List of user endpoints
 
 | Request|  Endpoint                    |  Description                         |
 |--------|------------------------------|--------------------------------------|
-| POST   | /api​/user​/register           | Creates a new user                   |
-| POST   | /api​/user​/login              | Validates user & returns a JWT token |
-| DELETE | ​/api​/user​/:email             | Deletes user                         |
+| POST   | /api​/user​/register           | Creates a new user (Public API)      |
+| POST   | /api​/user​/login              | Validates user & returns a JWT token(Public API)  |
 
 
 ## Testing instructions
@@ -110,8 +109,32 @@ Run the `Chai` base tests using the following commmand
 
 `npm run test`
 
+The test output will look like this
+
+```
+Integration test
+    Test token generation and list
+      ✔ Creating a new admin user using POST /api/user/register works. (131ms)
+      ✔ Login using the admin user using POST /api/user/login works. (81ms)
+      ✔ Creating a new token using POST /api/token/generate works.
+      ✔ Creating a new token using POST /api/token/generate does not work without JWT Token. Expected to return 403 status code (Forbidden)
+      ✔ Fetching token details using GET /api/token/:tokenId works.
+      ✔ Fetching token details using GET /api/token/:tokenId does not work without JWT Token. Expected to return 403 status code (Forbidden)
+      ✔ Validating token using GET /api/token/validate/:tokenId return 200 (Validation Passed).
+      ✔ Validating token using GET /api/token/validate/:tokenId works without having to specific JWT token..
+      ✔ Update token status using PATCH /api/token/:tokenId works.
+      ✔ Updating token status using PATCH /api/token/:tokenId does not work without JWT Token. Expected to return 403 status code (Forbidden)
+      ✔ Validating token using GET /api/token/validate/:tokenId returns 404 (Validation Failed - Inactive token).
+      ✔ Getting the token list using GET /api/token works
+      ✔ Getting the token list using GET /api/token does not work without JWT Token. Expected to return 403 status code (Forbidden)
+      ✔ Deleting the token using DELETE /api/token/:tokenId does not work without JWT Token. Expected to return 403 status code (Forbidden)
+      ✔ Deleting the token using DELETE /api/token/:tokenId works
+      ✔ Fetching token details using GET /api/token/:tokenId works.
+      ✔ Deleting an admin user works
+```
+
 ## TODO
-Search functionality
-Pagination
-Responsiveness
+* Search functionality
+* Pagination
+* Responsiveness
 
