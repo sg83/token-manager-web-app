@@ -1,0 +1,38 @@
+<div class="card create-token-window" fxLayoutAlign="center center" fxFlexFill>
+
+    <div class="card card-container">
+        <mat-card class="generateTokenCard" *ngIf="!isTokenCreated">
+
+            <mat-card-header>
+                <mat-card-title>Generate New Token</mat-card-title>
+            </mat-card-header>
+            <form [formGroup]="newTokenForm" name="newTokenForm" (ngSubmit)="onCreateNewToken()" fxLayout="column">
+                <mat-form-field class="newTokenField" appearance="fill">
+                    <mat-label>Token Name</mat-label>
+                    <input matInput placeholder="Ex. Customer_XYZ" formControlName="tokenName" type=text>
+                </mat-form-field>
+
+                <mat-form-field class="newTokenField" appearance="fill">
+                    <mat-label>Give description(optional)</mat-label>
+                    <textarea matInput placeholder="Ex. Token is generated for..." formControlName="tokenDescription"
+                        type="text"></textarea>
+                </mat-form-field>
+
+                <button mat-stroked-button color="primary">Submit</button>
+            </form>
+
+
+        </mat-card>
+        <div class="alert alert-success" *ngIf="isTokenCreated">
+            Token is created sucessfully. Please go back to Dashboard for managing token.
+        </div>
+
+        <!--Error message field-->
+        <div>
+            <div class="alert alert-danger" role="alert" *ngIf="!isTokenCreated && errorMessage">
+                Token creation failed: {{ errorMessage }}
+            </div>
+        </div>
+
+    </div>
+</div>

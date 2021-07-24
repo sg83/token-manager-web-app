@@ -1,0 +1,15 @@
+<div height=100% width=100% fxLayoutAlign="center center" fxLayout="column" fxFlexFill>
+<div class="header-text">
+    <p> Welcome to ACME Corp Portal </p>
+</div>
+
+<div *ngIf="isAdminLoggedIn; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+        <p>You are logged in. Please go to Dashboard to manage tokens.</p>
+    </ng-template>
+    <ng-template #elseBlock>
+        <p>Please login for administrative options</p>
+    </ng-template>
+</div>
+
+

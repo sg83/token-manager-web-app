@@ -1,0 +1,64 @@
+<div style="margin-left:10px" style="margin-right:10px" fxLayoutGap="10px">
+  <div class="page-header" fxLayoutAlign="center">
+    <h1 class="md-display-1">List of Tokens</h1>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="left" fxLayoutGap="10px">
+    <button mat-stroked-button color="style" class="add-button" routerLink='../create-token'>Create</button>
+
+    <button mat-stroked-button color="style" [disabled]="hideEnableButton" class="disable-button"
+      (click)="onEnableToken()">Enable</button>
+    <button mat-stroked-button color="style" [disabled]="hideRevokeButton" class="disable-button"
+      (click)="onRevokeToken()">Revoke</button>
+    <button mat-stroked-button color="style" [disabled]="hideDeleteButton" class="disable-button"
+      (click)="onDeleteToken()">Delete</button>
+  </div>
+
+  <mat-grid-list cols="14" rowHeight="2:1">
+    <mat-grid-tile colspan="1">
+      <mat-grid-tile-header>No.</mat-grid-tile-header>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3">
+      <mat-grid-tile-header>Name</mat-grid-tile-header>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3">
+      <mat-grid-tile-header>Token Value</mat-grid-tile-header>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <mat-grid-tile-header>Status</mat-grid-tile-header>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3">
+      <mat-grid-tile-header>ValidTo</mat-grid-tile-header>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <mat-grid-tile-header>Select</mat-grid-tile-header>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+
+  <form [formGroup]="tokenListForm" (ngSubmit)="onFormSubmit()">
+    <mat-selection-list #tokens [multiple]="false" formControlName="selectedToken">
+      <mat-list-option *ngFor="let token of apiTokens; let i = index" [value]="token">
+        <div class="listItem" style="text-align:left">
+          <mat-grid-list cols="14" rowHeight="2:1">
+            <mat-grid-tile colspan="1">{{i}}</mat-grid-tile>
+            <mat-grid-tile colspan="3">{{token.name}}</mat-grid-tile>
+            <mat-grid-tile colspan="3">{{token._id}}</mat-grid-tile>
+            <mat-grid-tile colspan="2">
+              <div *ngIf="token.status; else elseBlock">Active</div>
+              <ng-template #elseBlock>Expired</ng-template>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="3">{{token.validTo | date:"MM/dd/yy"}}</mat-grid-tile>
+            <mat-grid-tile colspan="2">
+              <button mat-stroked-button>Select</button>
+            </mat-grid-tile>
+          </mat-grid-list>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </form>
+
+  <div class="alert alert-success" *ngIf="apiTokens.length == 0">
+    Token list is empty.
+  </div>
+</div>

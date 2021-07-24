@@ -1,0 +1,26 @@
+<div fxLayoutGap="10px">
+
+  <mat-toolbar color="primary" class="app-header">
+
+    <span class="nav-tool-items">
+      <a>
+        <a mat-button routerLink="home" routerLinkActive="active">Home</a>
+        <a mat-button routerLink="check-token-validity" routerLinkActive="active">TokenValidation</a>
+        <div *ngIf="!adminLoggedIn; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <div fxFlex fxLayoutAlign="flex-end center">
+            <a mat-button routerLinkActive="active" routerLink="login">Login</a>
+          </div>
+        </ng-template>
+        <ng-template #elseBlock>
+          <div fxFlex fxLayoutAlign="flex-end center">
+            <a mat-button routerLink="admin-dashboard" routerLinkActive="active">Dashboard</a>
+            <a mat-button routerLinkActive="active" (click)="onAdminLogout()">Logout</a>
+          </div>
+        </ng-template>
+      </a>
+    </span>
+
+  </mat-toolbar>
+</div>
+<router-outlet></router-outlet>

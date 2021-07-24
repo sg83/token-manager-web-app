@@ -1,0 +1,55 @@
+<div class="col-md-12" fxLayoutAlign="center center" fxFlexFill>
+  <div class="card card-container">
+    <mat-card class="box" *ngIf="!isLoggedIn">
+      <mat-card-header>
+        <mat-card-title>Administrator Login</mat-card-title>
+      </mat-card-header>
+      <form fxLayout="column" name="form" (ngSubmit)="f.form.valid && onLogIn()" #f="ngForm">
+        <!--Email/Username input field-->
+        <mat-form-field class="form-group" appearance="fill">
+          <md-input-container class="md-block" flex-gt-sm>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Ex. abc@xyz.com" type="email" class="form-control" name="email"
+              [(ngModel)]="form.email" required #email="ngModel" />
+          </md-input-container>
+          <div class="alert alert-danger" role="alert" *ngIf="f.submitted && email.invalid">
+            Email is required!
+          </div>
+        </mat-form-field>
+        <!--Password input field-->
+        <mat-form-field class="form-group" appearance="fill">
+          <md-input-container class="md-block" flex-gt-sm>
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" type="password" class="form-control" name="password"
+              [(ngModel)]="form.password" required minlength="6" #password="ngModel" />
+          </md-input-container>
+          <div class="alert alert-danger" role="alert" *ngIf="f.submitted && password.invalid">
+            <div *ngIf="password.errors?.required">Password is required</div>
+            <div *ngIf="password.errors?.minlength">
+              Password must be at least 8 characters
+            </div>
+          </div>
+        </mat-form-field>
+        <!--Login button field-->
+        <div class="form-group">
+          <button mat-raised-button color="accent" class="btn btn-primary btn-block" location="center"
+            [disabled]="!f.form.valid">
+            Login
+          </button>
+        </div>
+        <!--Error message field-->
+        <div class="form-group">
+          <div class="alert alert-danger" role="alert" *ngIf="f.submitted && isLoginFailed">
+            Login failed: {{ errorMessage }}
+          </div>
+        </div>
+      </form>
+    </mat-card>
+
+    <!--Success message field-->
+    <div class="alert alert-success" *ngIf="isLoggedIn">
+      You are logged in. Please go to Dashboard to manage tokens.
+    </div>
+
+  </div>
+</div>

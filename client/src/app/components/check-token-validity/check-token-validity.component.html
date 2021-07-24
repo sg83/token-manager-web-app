@@ -1,0 +1,26 @@
+<div class="card token-validayion-window" fxLayoutAlign="center center" fxFlexFill>
+
+    <div class="card card-container">
+        <mat-card class="validateTokenCard" fxLayout="column" fxLayoutGap="20px">
+
+            <mat-card-header>
+                <mat-card-title>Check token validity</mat-card-title>
+            </mat-card-header>
+
+            <mat-label>Enter Token id</mat-label>
+            <mat-form-field class="reqToken" appearance="fill">
+                <input matInput placeholder="Ex. abc-XYz45" id="tokenId" required [formControl]="tokenId">
+            </mat-form-field>
+            <button mat-stroked-button color="primary" (click)="checkTokenValidity()">Submit</button>
+
+            <div class="alert alert-danger" role="alert" *ngIf="showResult && !isFailed">
+                <mat-card-content>Token is valid till: {{ validity | date:"MM/dd/yy" }}</mat-card-content>
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="showResult && isFailed">
+                <mat-card-content>Token is not active. [ Reason: {{errorMessage}} ]</mat-card-content>
+            </div>
+
+        </mat-card>
+
+    </div>
+</div>
